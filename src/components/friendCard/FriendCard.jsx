@@ -15,7 +15,7 @@ const FriendCard = () => {
                 {
                     cards.map((card,ind)=> <Card key={ind} card={card} />)
                 }
-            </div>)
+                 </div>)
 
             }
         </div>
