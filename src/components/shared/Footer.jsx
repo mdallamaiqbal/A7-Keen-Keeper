@@ -6,7 +6,7 @@ const Footer = () => {
     return (
         <footer className="mt-20 footer footer-horizontal footer-center bg-[#244D3F] text-white  rounded p-10">
         <div>
-            <h3 className='text-5xl font-extrabold'>KeenKeeper</h3>
+            <h3 className='text-xl md:text-5xl font-extrabold'>KeenKeeper</h3>
             <p>Your personal shelf of meaningful connections. Browse, tend, and nurture the relationships that matter most.</p>
         </div>
   <nav>

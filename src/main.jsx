@@ -9,6 +9,7 @@ import Home from './Pages/home/Home'
 import Timeline from './Pages/timeline/Timeline'
 import Stats from './Pages/stats/Stats'
 import FriendDetails from './Pages/friendDetails/FriendDetails'
+import CallProvider from './context/CallProvider'
 
 const router = createBrowserRouter([
   {
@@ -38,7 +39,9 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-     <RouterProvider router={router} />
+    <CallProvider>
+       <RouterProvider router={router} />
      <ToastContainer />
+    </CallProvider>
   </StrictMode>,
 )

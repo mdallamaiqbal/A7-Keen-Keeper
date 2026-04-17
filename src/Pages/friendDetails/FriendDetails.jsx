@@ -1,5 +1,5 @@
-import React from 'react';
-import { useParams } from 'react-router';
+
+import { Navigate, useParams } from 'react-router';
 import useFriendHooks from '../../components/hooks/useFriendHooks';
 import { FadeLoader } from 'react-spinners';
 import { TiBell } from 'react-icons/ti';
@@ -7,10 +7,31 @@ import { FiArchive } from 'react-icons/fi';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { MdOutlinePhoneInTalk } from 'react-icons/md';
 import { BsCameraVideo, BsChatText } from 'react-icons/bs';
+import { useContext } from 'react';
+import { CallContext } from '../../context/CallContext';
+import { toast } from 'react-toastify';
 const FriendDetails = () => {
     const {id} = useParams();
      const {cards,loading} = useFriendHooks();
      const detail = cards.find(card => String(card.id) === id );
+    const {call,setCall} = useContext(CallContext);
+     const handleAction = (type)=>{
+      const newAction ={
+         ...detail,
+         actionType: type,
+         date: new Date().toLocaleString()
+      }
+      setCall([...call, newAction]);
+      toast.success(`${detail.name} added to time line`,
+         {
+            icon:{
+               Call: <MdOutlinePhoneInTalk />,
+               Text: <BsChatText  />,
+               Video: <BsCameraVideo />
+            }[type]
+         }
+      )
+     }
      if(loading){
         return <p className='flex justify-center'> <FadeLoader color='#244D3F' /> </p>
      }
@@ -61,15 +82,15 @@ const FriendDetails = () => {
             <div className='bg-white px-4 py-3 sm:py-6 rounded-lg my-6'>
                 <h3 className='text-xl text-[#244D3F] font-medium mb-4'>Quick Check-In</h3>
                <div className='grid grid-cols-3 gap-1 sm:gap-4 '>
-                <div className='bg-[#F8FAFC] px-4 py-3 sm:py-6 text-center rounded-lg transition duration-300 hover:shadow-lg'>
+                <div onClick={()=>handleAction('Call')} className='bg-[#F8FAFC] px-4 py-3 sm:py-6 text-center rounded-lg transition duration-300 hover:shadow-lg'>
                 <h3 className='text-xl md:text-3xl text-[#244D3F] font-extrabold flex justify-center '><MdOutlinePhoneInTalk /></h3>
                 <p className='text-[#64748B] mt-2'>Call</p>
                </div>
-                <div className='bg-[#F8FAFC] px-4 py-3 sm:py-6 text-center rounded-lg transition duration-300 hover:shadow-lg'>
+                <div onClick={()=>handleAction('Text')} className='bg-[#F8FAFC] px-4 py-3 sm:py-6 text-center rounded-lg transition duration-300 hover:shadow-lg'>
                 <h3 className='text-xl md:text-3xl text-[#244D3F] font-extrabold flex justify-center '><BsChatText /></h3>
                 <p className='text-[#64748B] mt-2'>Text</p>
                </div>
-                <div className='bg-[#F8FAFC] px-4 py-3 sm:py-6 text-center rounded-lg transition duration-300 hover:shadow-lg '>
+                <div onClick={()=>handleAction('Video')} className='bg-[#F8FAFC] px-4 py-3 sm:py-6 text-center rounded-lg transition duration-300 hover:shadow-lg '>
                 <h3 className='text-xl md:text-3xl text-[#244D3F] font-extrabold flex justify-center '><BsCameraVideo /></h3>
                 <p className='text-[#64748B] mt-2'>Video</p>
                </div>
